@@ -16,10 +16,13 @@ type AuthContextProviderProps = {
     children:ReactNode;
 }
 
+
+
 export const AuthContext = createContext({} as AuthContextType);
 
 export function AuthContextProvider(props:AuthContextProviderProps){
     const [user, setUser] = useState<User>();
+
     useEffect(() => {
         const unsubscribe = auth.onAuthStateChanged(user => {
           if (user){
@@ -50,10 +53,10 @@ export function AuthContextProvider(props:AuthContextProviderProps){
         const result = await auth.signInWithPopup(provider);
         
         if (result.user){
-          const { displayName, photoURL, uid} = result.user
+          const { displayName,photoURL,uid} = result.user
     
           if (!displayName || !photoURL){
-              throw new Error('Missing information from Google Account')
+              throw new Error('Missing information from Google Account.');
             }
     
           setUser({
@@ -61,7 +64,7 @@ export function AuthContextProvider(props:AuthContextProviderProps){
             name: displayName,
             avatar: photoURL
           })
-          }
+        }
       }
 
     return(
