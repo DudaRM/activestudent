@@ -1,5 +1,7 @@
-import {useNavigate} from 'react-router-dom';
-import { Link } from 'react-router-dom'
+import {useNavigate, Link} from 'react-router-dom';
+//import toast, { Toaster } from 'react-hot-toast';
+//https://stackoverflow.com/questions/50911678/react-native-how-to-store-pic-and-username-when-using-firebase-to-create-a-user
+//https://stackoverflow.com/questions/37370599/firebase-auth-delayed-on-refresh
 
 import ideiasImg from '../assets/images/ideas.svg';
 import avatarImg from '../assets/images/avatar.png';
@@ -9,18 +11,38 @@ import { Button } from '../components/Button';
 import { useAuth } from '../hooks/useAuth';
 
 import '../styles/auth.scss';
-
+import { useRef, useState } from 'react';
+import { logIn } from '../services/firebase';
 
 export function Home(){
   const navigate = useNavigate();
   const {user,signInWithGoogle} = useAuth();
+  const emailRef = useRef<HTMLInputElement | null>(null);
+  const passwordRef = useRef<HTMLInputElement | null>(null);
+  const [loading, setLoading] = useState(false); 
+  const currentUser = useAuth();
 
-    async function handleCreateUser(){
-      if(!user){
-        await signInWithGoogle();
-      }
-      navigate('/users/new');
-      }
+
+  async function handleLogIn(){
+    setLoading(true);
+    if(!currentUser){
+        await logIn(emailRef.current!.value,passwordRef.current!.value);
+    }
+      setLoading(false);
+      navigate('/userHome'); 
+   }
+
+    
+
+  async function handleCreateUser(){
+
+    if(!user){
+      await signInWithGoogle();
+    }
+
+    navigate('/userHome');
+  }
+
   return(
     <div id="page-auth">
       <aside>
@@ -30,28 +52,31 @@ export function Home(){
       </aside>
       <main> 
         <div className="main-content">
+
           <img src={avatarImg} alt="Imagem avatar"/>
           <button onClick={handleCreateUser} className="create-user">
-          <img src={googleIconImg} alt="Logo google"/>
-            Entre com sua conta Google
+            <img src={googleIconImg} alt="Logo do google"/>
+              Entre com sua conta Google
           </button>
           <div className="separator">ou logue com sua conta</div>
           <form>
                     <h2>Email</h2>
-                    <input
+                    <input ref={emailRef}
                       type="email"
                       placeholder="Digite seu email"
                     />
                     <h2>Senha</h2>
-                    <input
+                    <input ref={passwordRef}
                       type="password"
                       placeholder="Digite sua senha"
                     />
               <br />
-              <Button type="submit">Entrar</Button>
+              <Button onClick={handleLogIn} type="submit">
+                Entrar
+              </Button>
           </form>
           <p>
-            Ainda não tem cadastro? <Link to="./pages/SignUp">Realizar cadastro</Link>
+            Ainda não tem cadastro? <Link to="/signUp">Realizar cadastro</Link>
           </p>
         </div>
       </main>

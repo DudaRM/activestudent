@@ -1,7 +1,7 @@
 #page-auth{
     display: flex;
     align-items: stretch;
-    height: 100vh;   
+    height: 100vh; 
 
     aside{
         flex:7;
@@ -11,13 +11,15 @@
         display: flex;
         flex-direction: column;
         justify-content: center;
+        padding-top: 120px;
+        padding-right: 80px;
+        padding-bottom: 120px;
+        padding-left: 80px;
 
-        padding: 120px 80px;
-
-            >img{
-                max-width: 500px;
-                height: 500px;
-            }
+        img{
+            max-width: 500px;
+            height: 300px;
+        }
         strong{
 
             font: 700 36px 'Poppins', sans-serif;
