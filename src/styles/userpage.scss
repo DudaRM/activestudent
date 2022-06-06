@@ -1,0 +1,100 @@
+#user-page{
+    display: flex;
+    align-items: stretch;
+    height: 100vh;
+
+    aside{
+        flex:4;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding-top: 100px;
+        padding-right: 70px;
+        padding-bottom: 100px;
+        padding-left: 70px;
+        border-style:solid;
+        border-color: #a8a8b325;
+        
+
+        img{
+            max-width: 200px;
+            height: 200px;
+            //justify-content: center;
+            border-radius: 50%;
+        }
+        strong{
+
+            font: 700 36px 'Poppins', sans-serif;
+            line-height: 42px;
+            margin-top: 16px;
+            color: black;
+        }
+
+        h1{
+            font-size: 18px;
+        }
+        p{
+            font-size: 18px;
+            line-height: 32px;
+            margin-top: 16px;
+            color: black;
+        }
+    }
+
+    main{
+        flex:9;
+        padding: 0 32px;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .main-content{
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        //max-width: 320px;
+        align-items: stretch;
+        text-align: center;
+
+        h2{
+            font-size: 23px;
+            margin: 5px 0 15px;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        p{
+            font-size: 14px;
+            color: #737380;
+            margin-top: 16px;
+
+            a{
+                color: #e559f9;
+            }
+        }
+    }
+    .separator{
+        font-size: 14px;
+        color:#a8a8b3;
+
+        margin: 32px 0;
+        display: flex;
+        align-items: center;
+
+        &::before{
+            content: '';
+            flex: 1;
+            height: 1px;
+            background:#a8a8b3;
+            margin-right: 16px;
+        }
+        &::after{
+            content: '';
+            flex: 1;
+            height: 1px;
+            background:#a8a8b3;
+            margin-left: 16px;
+        }
+    }
+}
