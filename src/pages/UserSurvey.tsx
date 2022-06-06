@@ -1,12 +1,25 @@
-// import 'survey-core/defaultV2.min.css';
+//https://developers.google.com/forms/api/guides
+
+//import StudentSurvey from "../components/StudentSurvey";
+
+import 'survey-core/defaultV2.min.css';
 //https://surveyjs.io/Examples/Library/?id=survey-afterrender&platform=Reactjs#content-js
 import ReactDOM from 'react-dom';
 import { StylesManager, Model } from 'survey-core';
 import { Survey } from 'survey-react-ui';
 import '../styles/usersurvey.scss';
+import { useAuth } from '../hooks/useAuth';
+import { useParams } from 'react-router-dom';
+import { useEffect, useState, useCallback } from 'react';
+import { Question } from 'survey-react';
+import { database} from '../services/firebase';
+import { getDatabase, ref, set } from "firebase/database";
+import { addSyntheticLeadingComment } from 'typescript';
 
 
-StylesManager.applyTheme("modern");
+StylesManager.applyTheme("defaultV2");
+
+const SURVEY_ID = 1;
 
 const surveyJson = {
   "locale": "pt-br",
@@ -123,12 +136,20 @@ const surveyJson = {
   "showProgressBar": "bottom",
   "autoGrowComment": true,
   "questionsOnPageMode": "questionPerPage",
+  "showPreviewBeforeComplete": "showAllQuestions",
   "widthMode": "responsive"
  }
 
 export function UserSurvey(){
-  const survey = new Model(surveyJson);
+  const survey = new Model(surveyJson); 
 
+    survey.onComplete.add(function (sender, options) {
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", "https://activestudent-4b42c-default-rtdb.firebaseio.com/");
+    xhr.setRequestHeader("Content-Type", "application/json; charset=utf-8");
+    xhr.send(JSON.stringify(sender.data));
+});
+  
   return (<Survey model={survey} />)
 
 }

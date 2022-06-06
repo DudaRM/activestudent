@@ -6,7 +6,6 @@ import {BrowserRouter, Route, Routes, Outlet} from 'react-router-dom';
 import {AuthContextProvider} from './contexts/AuthContext';
 import { Dashboard } from "./pages/Dashboard";
 import {UserSurvey} from "./pages/UserSurvey";
-import { Navbar } from "./components/Navbar";
 import WithoutNav from "./WithoutNav";
 import WithNav from "./WithNav";
 
@@ -18,10 +17,10 @@ function App() {
         <Routes>
           <Route element={<WithoutNav/>}>
             <Route path="/" element={<Home/>}/>
+            <Route path="/signUp" element={<SignUp/>}/>
           </Route>
         <Route element={<WithNav/>}>
-          <Route path="/userHome" element={<UserPage/>}/>
-          <Route path="/signUp" element={<SignUp/>}/>
+          <Route path="/userPage" element={<UserPage/>}/>
           <Route path="/userDashboard" element={<Dashboard/>}/>
           <Route path="/userSurvey" element={<UserSurvey/>}/>
         </Route>

@@ -33,15 +33,19 @@ const storage = getStorage();
 export {firebase,auth,database};
 
 export function signUp(email,password){
-  return createUserWithEmailAndPassword(auth,email,password);
+  return createUserWithEmailAndPassword(auth,email,password).then((userCredential)=>{
+    const user = userCredential.user;
+  })
 }
 
 export function logIn(email,password){
-  return signInWithEmailAndPassword(auth,email,password);
+  return signInWithEmailAndPassword(auth,email,password).then((userCredential)=>{
+    const user = userCredential.user;
+  })
 }
 
 export function logOut(){
-  return signOut(auth);
+  return signOut(auth).then(()=>{})
 }
 
 //Custom Hook
@@ -69,5 +73,3 @@ export async function upload(file, currentUser,setLoading){
   setLoading(false);
   alert("Uploaded file!");
 }
-
-

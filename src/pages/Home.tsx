@@ -29,7 +29,7 @@ export function Home(){
         await logIn(emailRef.current!.value,passwordRef.current!.value);
     }
       setLoading(false);
-      navigate('/userHome'); 
+      navigate('/userPage'); 
    }
 
     
@@ -40,7 +40,7 @@ export function Home(){
       await signInWithGoogle();
     }
 
-    navigate('/userHome');
+    navigate('/userPage');
   }
 
   return(

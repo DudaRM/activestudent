@@ -8,7 +8,6 @@ import { Button } from '../components/Button';
 
 import '../styles/auth.scss';
 import { signUp, useAuth } from '../services/firebase';
-import Profile from "./Profile";
 
 
 export function SignUp(){
@@ -59,8 +58,6 @@ export function SignUp(){
                       type="password"
                       placeholder="Digite sua senha"
                     />
-                    <h2>Avatar</h2>
-                    <input type="file"/>
               <br />
               <Button onClick={handleSignUp} type="submit">
                 Cadastrar
