@@ -2,6 +2,7 @@ import {useNavigate, Link} from 'react-router-dom';
 //import toast, { Toaster } from 'react-hot-toast';
 //https://stackoverflow.com/questions/50911678/react-native-how-to-store-pic-and-username-when-using-firebase-to-create-a-user
 //https://stackoverflow.com/questions/37370599/firebase-auth-delayed-on-refresh
+//onClick={handleLogIn}
 
 import ideiasImg from '../assets/images/ideas.svg';
 import avatarImg from '../assets/images/avatar.png';
@@ -12,28 +13,23 @@ import { useAuth } from '../hooks/useAuth';
 
 import '../styles/auth.scss';
 import { useRef, useState } from 'react';
-import { logIn } from '../services/firebase';
+import { useAuthValue } from '../contexts/FirebaseContext';
+import { sendEmailVerification, signInWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '../services/firebase';
 
 export function Home(){
   const navigate = useNavigate();
   const {user,signInWithGoogle} = useAuth();
-  const emailRef = useRef<HTMLInputElement | null>(null);
-  const passwordRef = useRef<HTMLInputElement | null>(null);
-  const [loading, setLoading] = useState(false); 
-  const currentUser = useAuth();
+  //const emailRef = useRef<HTMLInputElement | null>(null);
+  //const passwordRef = useRef<HTMLInputElement | null>(null);
+  //const [loading, setLoading] = useState(false); 
+  //const currentUser = useAuth();
+  const {setTimeActive} = useAuthValue()
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('') 
+  const [error, setError] = useState('')
 
-
-  async function handleLogIn(){
-    setLoading(true);
-    if(!currentUser){
-        await logIn(emailRef.current!.value,passwordRef.current!.value);
-    }
-      setLoading(false);
-      navigate('/userPage'); 
-   }
-
-    
-
+  //Login with Google
   async function handleCreateUser(){
 
     if(!user){
@@ -42,6 +38,27 @@ export function Home(){
 
     navigate('/userPage');
   }
+
+  //Login with Email And Password
+  const login = e => {
+    e.preventDefault();
+    signInWithEmailAndPassword(auth,email,password)
+    .then(() => {
+      if(!auth.currentUser?.emailVerified){
+        sendEmailVerification(auth.currentUser as any)
+        .then(() => {
+          setTimeActive(true);
+          navigate('/verify-email');
+        })
+        .catch(err => alert(err.message))
+      }else{
+        navigate('/');
+      }
+    })
+    .catch(err => setError(err.message))
+
+  }
+
 
   return(
     <div id="page-auth">
@@ -59,19 +76,25 @@ export function Home(){
               Entre com sua conta Google
           </button>
           <div className="separator">ou logue com sua conta</div>
-          <form>
+          <form onSubmit={login}> 
                     <h2>Email</h2>
-                    <input ref={emailRef}
+                    <input
                       type="email"
+                      value={email}
+                      required
                       placeholder="Digite seu email"
+                      onChange={e => setEmail(e.target.value)}
                     />
                     <h2>Senha</h2>
-                    <input ref={passwordRef}
+                    <input
                       type="password"
+                      value={password}
+                      required
                       placeholder="Digite sua senha"
+                      onChange={e => setPassword(e.target.value)}
                     />
               <br />
-              <Button onClick={handleLogIn} type="submit">
+              <Button  type="submit">
                 Entrar
               </Button>
           </form>

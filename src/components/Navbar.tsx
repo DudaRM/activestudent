@@ -6,28 +6,23 @@ import { SidebarData } from './SidebarData';
 import '../styles/navbar.scss';
 import { IconContext } from 'react-icons';
 import { Button } from './Button';
-import { logOut } from '../services/firebase';
- 
+import { signOut } from 'firebase/auth';
+import { auth } from '../services/firebase';
+
 
 
 export function Navbar(){
     const [sidebar, setSidebar] = useState(false);
-    const [loading,setLoading] = useState(false); 
+    const showSidebar = () => setSidebar(!sidebar);
     const navigate = useNavigate();
 
-
-    const showSidebar = () => setSidebar(!sidebar);
-   
-    async function handleLogOut(){
-        setLoading(true);
-        try{
-          await logOut();
-        } catch{
-          alert("Error");
-        }  
-        setLoading(false);
-        navigate('/');
-      }
+    function logOut(){
+        return(
+            signOut(auth).then(()=>{
+                navigate('/');
+            }) 
+      )}
+      
     
     return(
         <>
@@ -39,7 +34,7 @@ export function Navbar(){
                     </Link>
                 </div>
                 <div className="logout-container">
-                    <Button onClick={handleLogOut} type="submit">
+                    <Button  onClick={logOut} type="submit">
                         Sair
                     </Button>
                 </div>

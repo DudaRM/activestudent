@@ -1,7 +1,6 @@
-import React from 'react';
 import * as GoIcons from "react-icons/go";
 import * as AiIcons from "react-icons/ai";
-import * as IoIcons from "react-icons/io";
+//import * as IoIcons from "react-icons/io";
 
 
 //https://www.treinaweb.com.br/blog/tipagem-no-typescript
@@ -24,11 +23,5 @@ export const SidebarData = [
         path: '/userSurvey',
         icon: <GoIcons.GoRepo/>,
         cName: 'nav-text'
-    },   
-    {
-        title: 'Reports',
-        path: '/userReports',
-        icon: <IoIcons.IoIosPaper/>,
-        cName: 'nav-text'
-    },         
+    },            
 ]

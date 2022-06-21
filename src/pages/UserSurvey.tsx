@@ -4,22 +4,18 @@
 
 import 'survey-core/defaultV2.min.css';
 //https://surveyjs.io/Examples/Library/?id=survey-afterrender&platform=Reactjs#content-js
-import ReactDOM from 'react-dom';
 import { StylesManager, Model } from 'survey-core';
 import { Survey } from 'survey-react-ui';
 import '../styles/usersurvey.scss';
-import { useAuth } from '../hooks/useAuth';
-import { useParams } from 'react-router-dom';
-import { useEffect, useState, useCallback } from 'react';
-import { Question } from 'survey-react';
-import { database} from '../services/firebase';
-import { getDatabase, ref, set } from "firebase/database";
-import { addSyntheticLeadingComment } from 'typescript';
-
+import { useCallback } from 'react';
 
 StylesManager.applyTheme("defaultV2");
 
-const SURVEY_ID = 1;
+type Resultado = {
+  numberQuestion: string;
+  answerQuestion: string;
+}
+
 
 const surveyJson = {
   "locale": "pt-br",
@@ -140,16 +136,20 @@ const surveyJson = {
   "widthMode": "responsive"
  }
 
-export function UserSurvey(){
-  const survey = new Model(surveyJson); 
+//https://firebase.google.com/docs/database/rest/save-data
 
-    survey.onComplete.add(function (sender, options) {
-    var xhr = new XMLHttpRequest();
-    xhr.open("POST", "https://activestudent-4b42c-default-rtdb.firebaseio.com/");
-    xhr.setRequestHeader("Content-Type", "application/json; charset=utf-8");
-    xhr.send(JSON.stringify(sender.data));
-});
+
+export function UserSurvey(){
+  const survey = new Model(surveyJson);
+  const alertResults = useCallback((sender) => {
+    const results = JSON.stringify(sender.data);
+    console.log(results);
+  }, []);
+
+  survey.onComplete.add(alertResults);
   
   return (<Survey model={survey} />)
 
 }
+
+//https://www.javatpoint.com/react-lists#:~:text=Now%2C%20let%20us%20see%20how,render%20it%20to%20the%20DOM. ler sobre listas
