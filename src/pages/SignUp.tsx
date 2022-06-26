@@ -1,6 +1,6 @@
 import {auth} from '../services/firebase';
 import { useState } from "react";
-import { createUserWithEmailAndPassword, sendEmailVerification } from 'firebase/auth';
+import { createUserWithEmailAndPassword, sendEmailVerification, updateProfile } from 'firebase/auth';
 import { Link, useNavigate } from 'react-router-dom';
 import { Button } from '../components/Button';
 import toast, { Toaster } from 'react-hot-toast';
@@ -33,28 +33,33 @@ export function SignUp(){
         return isValid;
     }
 
-    const register = e => {
+    const register = async e => {
         e.preventDefault();
         setError('')
         if (validatePassword()){
-            createUserWithEmailAndPassword(auth, email, password)
-            .then(() => {
-                sendEmailVerification(auth.currentUser as any)
-                .then(() => {
-                    toast.success('User registration successful registered');
-                    setTimeActive(true);
-                    navigate('/verify-email')
-                }).catch(err => {setError(err.message);toast.error(err.message) })
-                
-            })
-            .catch(err => setError(err.message))
-        }
+          try{
+            await createUserWithEmailAndPassword(auth, email, password)
+            .catch(err => {setError(err.message);toast.error(err.message) });
+
+            await updateProfile(auth.currentUser as any, { displayName: name , photoURL: avatar});
+
+            await sendEmailVerification(auth.currentUser as any)
+            .catch(err => {setError(err.message);toast.error(err.message) });  
+
+            toast.success('User registration successful registered');
+            setTimeActive(true);
+            navigate('/verify-email')
+
+          } catch (err){
+            console.log(err);
+          }
+    }
         setName('')
         setEmail('')
         setPassword('')
         setConfirmPassword('')
         setAvatar('')
-    }
+  }
     
     return(
         <div id="page-auth">

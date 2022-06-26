@@ -12,7 +12,7 @@ import { Button } from '../components/Button';
 import { useAuth } from '../hooks/useAuth';
 
 import '../styles/auth.scss';
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import { useAuthValue } from '../contexts/FirebaseContext';
 import { sendEmailVerification, signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../services/firebase';
@@ -40,9 +40,9 @@ export function Home(){
   }
 
   //Login with Email And Password
-  const login = e => {
+  const login = async e => {
     e.preventDefault();
-    signInWithEmailAndPassword(auth,email,password)
+     await signInWithEmailAndPassword(auth,email,password)
     .then(() => {
       if(!auth.currentUser?.emailVerified){
         sendEmailVerification(auth.currentUser as any)
@@ -52,7 +52,7 @@ export function Home(){
         })
         .catch(err => alert(err.message))
       }else{
-        navigate('/');
+        navigate('/UserPage');
       }
     })
     .catch(err => setError(err.message))

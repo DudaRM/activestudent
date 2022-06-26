@@ -3,7 +3,7 @@
 import React, {createContext, useContext, useEffect, useState} from 'react';
 import { auth } from '../services/firebase';
 
-type User = {
+type FirebaseUser = {
     id:string;
     name:string;
     email:string;
@@ -12,8 +12,8 @@ type User = {
 }
 
 
-type AuthContextType = {
-    currentUser: User | undefined;
+type AuthContextTypeFirebase = {
+    currentUser: FirebaseUser | undefined;
     timeActive: boolean;
     //resultado esperado:Tipo
     setTimeActive: (boolean:boolean) => Promise<void>;
@@ -21,7 +21,7 @@ type AuthContextType = {
 }
 
 
-export const AuthContext = createContext({} as AuthContextType);
+export const AuthContext = createContext({} as AuthContextTypeFirebase);
 
 export function useAuthValue(){
     return useContext(AuthContext)
@@ -29,12 +29,16 @@ export function useAuthValue(){
 
 //The AuthProvider function allows us to share the value of the user’s state to all the children of AuthContext
 export function AuthProvider({children, value}){
-     const [ currentUser,setCurrentUser ] = useState<User>();
+     const [ currentUser,setCurrentUser ] = useState<FirebaseUser>();
     
      useEffect(() => {
-         const unsub = auth.onAuthStateChanged(firebaseUser => {
-           if(firebaseUser){
-            const {displayName,photoURL,uid,email} = firebaseUser
+         const unsub = auth.onAuthStateChanged(currentUser => {
+           if(currentUser){
+            const {displayName,photoURL,uid,email} = currentUser
+                console.log(currentUser.displayName)
+                console.log(currentUser.photoURL)
+                console.log(currentUser.uid)
+                console.log(currentUser.email)
 
                 if(displayName && photoURL && uid && email){  
                     setCurrentUser({
@@ -45,7 +49,7 @@ export function AuthProvider({children, value}){
                    });
                 }
                 else{
-                    throw new Error('Missing information from  account')
+                    throw new Error('Missing information from  account');
                 }
         }
     });
