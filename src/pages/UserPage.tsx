@@ -7,6 +7,8 @@ import checklist from '../assets/images/checklist.png';
 import fine from '../assets/images/smile.png';
 import emotions from '../assets/images/emotions.png';
 
+
+//https://surveyjs.io/Examples/Library?id=custom-widget-emotionsratings&platform=Reactjs&theme=modern#content-js 
 export function UserPage(){
    const {user} = useAuth();
     return(

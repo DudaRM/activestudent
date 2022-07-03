@@ -25,3 +25,18 @@ export const SidebarData = [
         cName: 'nav-text'
     },            
 ]
+
+export const SidebarDataAdmin = [
+    {
+        title: 'Home',
+        path: '/adminHome',
+        icon: <AiIcons.AiFillHome/>,
+        cName: 'nav-text'      
+    },
+    {
+        title: 'Dashboard',
+        path: '/adminDashboard',
+        icon: <AiIcons.AiFillDashboard/>,
+        cName: 'nav-text'
+    },            
+]

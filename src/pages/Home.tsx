@@ -20,23 +20,25 @@ import { auth } from '../services/firebase';
 export function Home(){
   const navigate = useNavigate();
   const {user,signInWithGoogle} = useAuth();
-  //const emailRef = useRef<HTMLInputElement | null>(null);
-  //const passwordRef = useRef<HTMLInputElement | null>(null);
-  //const [loading, setLoading] = useState(false); 
-  //const currentUser = useAuth();
   const {setTimeActive} = useAuthValue()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('') 
   const [error, setError] = useState('')
+  const admin = "MQG3HzJxwdddQGBKVrX8UrJyM0A2";
 
   //Login with Google
   async function handleCreateUser(){
 
     if(!user){
-      await signInWithGoogle();
+      await signInWithGoogle()
+      .then(() => {
+        if(auth.currentUser?.uid === admin){
+        navigate('/adminHome');
+      }
+      else{
+        navigate('/userPage');
+      }});
     }
-
-    navigate('/userPage');
   }
 
   //Login with Email And Password
@@ -52,6 +54,9 @@ export function Home(){
         })
         .catch(err => alert(err.message))
       }else{
+        if(user?.id === admin){
+          navigate('/adminHome');
+        }
         navigate('/UserPage');
       }
     })
@@ -98,6 +103,9 @@ export function Home(){
                 Entrar
               </Button>
           </form>
+          <p>
+            <Link to="/resetPassword">Esqueci minha senha</Link>
+          </p>
           <p>
             Ainda não tem cadastro? <Link to="/signUp">Realizar cadastro</Link>
           </p>

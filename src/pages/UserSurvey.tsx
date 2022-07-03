@@ -15,7 +15,7 @@ StylesManager.applyTheme("defaultV2");
 const surveyJson = {
   surveyId: 'ca18da9a-3ba6-4b81-baf4-6173bd60fb86',
   surveyPostId: '0c5f2889-5f18-4bd5-8523-9dea607a4020'
- }
+ };
 
 //https://firebase.google.com/docs/database/rest/save-data
 
@@ -28,7 +28,7 @@ export function UserSurvey(){
 
 survey.onComplete.add(function (sender) {
   const currentDate = new Date().toLocaleString();
-  const results = JSON.stringify(sender.data);
+  const results = JSON.stringify(sender.data, null,3);
   const surveyRef = database.ref('surveys');
   const firebaseSurvey = surveyRef.push({
     data: currentDate,

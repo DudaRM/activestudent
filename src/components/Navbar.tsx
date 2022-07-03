@@ -21,8 +21,7 @@ export function Navbar(){
             signOut(auth).then(()=>{
                 navigate('/');
             }) 
-      )}
-      
+      )}      
     
     return(
         <>
