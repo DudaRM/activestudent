@@ -12,7 +12,7 @@ import { Button } from '../components/Button';
 import { useAuth } from '../hooks/useAuth';
 
 import '../styles/auth.scss';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useAuthValue } from '../contexts/FirebaseContext';
 import { sendEmailVerification, signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../services/firebase';
@@ -24,20 +24,42 @@ export function Home(){
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('') 
   const [error, setError] = useState('')
-  const admin = "MQG3HzJxwdddQGBKVrX8UrJyM0A2";
+  const admin = "duda.r.mach@gmail.com";
+  //https://stackoverflow.com/questions/51853428/firebase-realtime-db-security-rule-to-allow-specific-users?rq=1
+
+useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged(function(user){
+      if(user){
+        console.log("Logged in. user: " + user.displayName);
+        if(user.email === admin){
+          navigate('/adminHome');
+       }
+       else{
+         navigate('/UserPage');
+       }
+      }
+      else{
+        console.log("Not logged in")
+      }
+    });
+    return() =>{
+      unsubscribe();
+    }
+  
+},[navigate])
 
   //Login with Google
   async function handleCreateUser(){
-
     if(!user){
       await signInWithGoogle()
-      .then(() => {
-        if(auth.currentUser?.uid === admin){
-        navigate('/adminHome');
-      }
-      else{
-        navigate('/userPage');
-      }});
+      .then(() => { 
+        if(auth.currentUser?.email === admin){
+           navigate('/adminHome');
+        }
+        else{
+          navigate('/UserPage');
+        }
+      });
     }
   }
 
@@ -54,7 +76,7 @@ export function Home(){
         })
         .catch(err => alert(err.message))
       }else{
-        if(user?.id === admin){
+        if(auth.currentUser?.email === admin){
           navigate('/adminHome');
         }
         navigate('/UserPage');

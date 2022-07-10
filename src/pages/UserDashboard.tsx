@@ -5,7 +5,7 @@ import { useAuth } from "../hooks/useAuth";
 import notebook from '../assets/images/notebook.png';
 import checklist from '../assets/images/checklist.png';
 import { useState } from "react";
-import {UserData} from './Data'
+import {SurveyData} from './Data'
 import { BarChart } from "../components/BarChart";
 import '../styles/userpage.scss';
 import { Chart, registerables } from 'chart.js';
@@ -16,11 +16,11 @@ export function UserDashboard(){
 
   const [userData, setUserData] = useState({
     //columns
-    labels: UserData.map((data) => data.year),
+    labels: SurveyData.map((data) => data.year),
     datasets: [
       {
       label: "Users Gained",
-      data: UserData.map((data) => data.userGain),
+      data: SurveyData.map((data) => data.userGain),
       backgroundColor: ["#A9DED4","#E6866E"]
     }]
   });

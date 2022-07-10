@@ -38,5 +38,11 @@ export const SidebarDataAdmin = [
         path: '/adminDashboard',
         icon: <AiIcons.AiFillDashboard/>,
         cName: 'nav-text'
+    },      
+    {
+        title: 'Survey',
+        path: '/adminSurvey',
+        icon: <GoIcons.GoRepo/>,
+        cName: 'nav-text'
     },            
 ]

@@ -1,10 +1,12 @@
 import { createContext, ReactNode, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { auth, firebase } from "../services/firebase";
 //Ler e reformar o login do firebase
 
 type User = {
     id:string;
     name:string;
+    email:string;
     avatar?:string;
   }
   
@@ -29,7 +31,7 @@ export function AuthContextProvider(props:AuthContextProviderProps){
     useEffect(() => {
         const unsubscribe = auth.onAuthStateChanged(user => {
           if (user){
-            const { displayName,photoURL,uid} = user
+            const { displayName,photoURL,uid,email} = user
     
             if (!displayName || !photoURL){
                 throw new Error('Missing information from Google Account')
@@ -38,8 +40,9 @@ export function AuthContextProvider(props:AuthContextProviderProps){
             setUser({
               id: uid,
               name: displayName,
+              email: email,
               avatar: photoURL
-            })
+            } as User)
           }
         })
     
@@ -56,7 +59,7 @@ export function AuthContextProvider(props:AuthContextProviderProps){
         const result = await auth.signInWithPopup(provider);
         
         if (result.user){
-          const { displayName,photoURL,uid} = result.user
+          const { displayName,photoURL,uid,email} = result.user
     
           if (!displayName || !photoURL){
               throw new Error('Missing information from Google Account.');
@@ -65,8 +68,9 @@ export function AuthContextProvider(props:AuthContextProviderProps){
           setUser({
             id: uid,
             name: displayName,
+            email: email,
             avatar: photoURL
-          })
+          } as User)
         }
       }
 

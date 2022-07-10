@@ -9,14 +9,20 @@ import {BrowserRouter, Route, Routes} from 'react-router-dom';
 import {AuthContextProvider} from './contexts/AuthContext';
 import { AuthProvider } from "./contexts/FirebaseContext";
 import { UserDashboard } from "./pages/UserDashboard";
-import WithoutNav from "./WithoutNav";
-import WithNav from "./WithNav";
+import WithoutNav from "./pages/Nav/WithoutNav";
+import WithNav from "./pages/Nav/WithNav";
 import { useState } from "react";
 import PrivateRoute from "./pages/PrivateRoute";
 import { ResetPassword } from "./pages/ResetPassword";
 import { AdminPage } from "./pages/AdminPage";
 import { AdminDashboard } from "./pages/AdminDashboard";
 import { UserSurvey } from "./pages/UserSurvey";
+import WithNavAdmin from "./pages/Nav/WithNavAdmin";
+import { AdminSurvey } from "./pages/AdminSurvey";
+//import { Teste } from "./pages/Teste";
+
+
+//alterar Home
 
 function App() {
   //Now when we register a user the currentUser state will be set with an object containing the user’s info.
@@ -34,13 +40,16 @@ function App() {
               <Route path="/signUp" element={<SignUp/>}/>
               <Route path="/" element={<Home/>}/>
             </Route>
-          <Route element={<WithNav/>}>
-            <Route path="/userPage" element={<PrivateRoute><UserPage/></PrivateRoute>}/>
-            <Route path="/userDashboard" element={<UserDashboard/>}/>
-            <Route path="/userSurvey" element={<UserSurvey/>}/>
-            <Route path="/adminDashboard" element={<AdminDashboard/>}/>
-            <Route path="/adminHome" element={<AdminPage/>}/>
-          </Route>
+            <Route element={<WithNav/>}>
+              <Route path="/userPage" element={<PrivateRoute><UserPage/></PrivateRoute>}/>
+              <Route path="/userDashboard" element={<PrivateRoute><UserDashboard/></PrivateRoute>}/>
+              <Route path="/userSurvey" element={<PrivateRoute><UserSurvey/></PrivateRoute>}/>
+            </Route>
+            <Route element={<WithNavAdmin/>}>
+              <Route path="/adminDashboard" element={<PrivateRoute><AdminDashboard/></PrivateRoute>}/>
+              <Route path="/adminHome" element={<PrivateRoute><AdminPage/></PrivateRoute>}/>
+              <Route path="/adminSurvey" element={<PrivateRoute><AdminSurvey/></PrivateRoute>}/>
+            </Route>
           </Routes>
       </AuthContextProvider>
       </AuthProvider>

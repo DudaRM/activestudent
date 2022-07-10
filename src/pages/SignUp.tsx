@@ -1,4 +1,4 @@
-import {auth} from '../services/firebase';
+import {auth, database} from '../services/firebase';
 import { useState } from "react";
 import { createUserWithEmailAndPassword, sendEmailVerification, updateProfile } from 'firebase/auth';
 import { Link, useNavigate } from 'react-router-dom';
@@ -7,12 +7,13 @@ import toast, { Toaster } from 'react-hot-toast';
 import { useAuthValue } from '../contexts/FirebaseContext';
 import signupImg from '../assets/images/signup.svg';
 import avatarImg from '../assets/images/avatar.png';
-
 import '../styles/auth.scss';
 
 
 
 export function SignUp(){
+    const db = database.ref('/users');
+    const admin = "duda.r.mach@gmail.com";
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [name,setName] = useState('');
@@ -47,6 +48,22 @@ export function SignUp(){
             .catch(err => {setError(err.message);toast.error(err.message) });  
 
             toast.success('User registration successful registered');
+            if(auth.currentUser?.email === admin){
+              db.push({
+                id: auth.currentUser.uid,
+                email: auth.currentUser.email,
+                name:auth.currentUser?.displayName,
+                isAdmin: true
+              })
+            }
+            else{
+              db.push({
+                id: auth.currentUser?.uid,
+                email: auth.currentUser?.email,
+                name:auth.currentUser?.displayName,
+                isAdmin: false
+              })
+            }
             setTimeActive(true);
             navigate('/verify-email')
 

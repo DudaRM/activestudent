@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import * as FaIcons from "react-icons/fa";
 import * as AiIcons from "react-icons/ai";
-import { SidebarData } from './SidebarData';
+import { SidebarDataAdmin } from './SidebarData';
 import '../styles/navbar.scss';
 import { IconContext } from 'react-icons';
 import { Button } from './Button';
@@ -11,14 +11,14 @@ import { auth } from '../services/firebase';
 
 
 
-export function Navbar(){
+export function NavbarAdmin(){
     const [sidebar, setSidebar] = useState(false);
     const showSidebar = () => setSidebar(!sidebar);
     const navigate = useNavigate();
 
-    async function logOut(){
+    function logOut(){
         return(
-            await signOut(auth).then(()=>{
+            signOut(auth).then(()=>{
                 navigate('/');
             }) 
       )}      
@@ -46,7 +46,7 @@ export function Navbar(){
                             <AiIcons.AiOutlineClose/>
                         </Link>
                     </li>
-                    {SidebarData.map((item,index) => {  
+                    {SidebarDataAdmin.map((item,index) => {  
                         return(
                             <li key={index} className={item.cName}>
                                 <Link to={item.path}>

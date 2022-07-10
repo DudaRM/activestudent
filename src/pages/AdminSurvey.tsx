@@ -1,13 +1,14 @@
-//https://www.youtube.com/watch?v=RF57yDglDfE
-//https://www.chartjs.org/docs/latest/
-import { useEffect, useState } from "react";
-import { SurveyData} from './Data'
-import { BarChart } from "../components/BarChart";
-import 'survey-analytics/survey.analytics.min.css';
-import { database } from "../services/firebase";
-import { Model } from 'survey-core';
-import { VisualizationPanel } from 'survey-analytics';
-import { render } from "react-dom";
+import 'survey-core/defaultV2.min.css';
+import { StylesManager, Model } from 'survey-core';
+import { Survey } from 'survey-react-ui';
+import '../styles/adminsurvey.scss';
+import { useAuth } from '../hooks/useAuth';
+import { database } from '../services/firebase';
+import { Button } from '../components/Button';
+import { DataSurvey } from '../services/serviceSurvey';
+import actions from '../assets/images/actionsadmin.svg';
+
+StylesManager.applyTheme("defaultV2");
 
 const surveyJson = {
     locale: "pt-br",
@@ -231,84 +232,51 @@ const surveyJson = {
     showPreviewBeforeComplete: "showAllQuestions",
     widthMode: "responsive"
 };
+
+//https://firebase.google.com/docs/database/rest/save-data
+
+export function AdminSurvey(){
+  const {user} = useAuth();
+  const db = database;
+  const survey = new Model(surveyJson);
+
+
+  async function handleSubmitSurvey(){
+    const openDate = '09/07/2022';
+    const closeDate = '15/07/2022';
+    const surveyData = surveyJson;
+    const surveyRef = database.ref('/survey');
+    const surveyCreated = surveyRef.push({
+      openDate: openDate,
+      closeDate: closeDate,
+      authorId:user?.id,
+      surveyData
+    }) 
+}
   
-const surveyResults = [{
-    "question1":5,
-    "question2":3,
-    "question3":5,
-    "question4":2,
-    "question5":1,
-    "question6":3,
-  }, {
-    "question1":1,
-    "question2":2,
-    "question3":5,
-    "question4":2,
-    "question5":1,
-    "question6":3,
-  }, {
-    "question1":5,
-    "question2":5,
-    "question3":5,
-    "question4":2,
-    "question5":1,
-    "question6":3,
-  }, {
-    "question1":1,
-    "question2":3,
-    "question3":1,
-    "question4":2,
-    "question5":1,
-    "question6":3,
-  }, {
-    "question1":5,
-    "question2":4,
-    "question3":5,
-    "question4":4,
-    "question5":1,
-    "question6":3,
-}];
-  
-const vizPanelOptions = {
-    allowHideQuestions: false
+
+  //Optionally, show saving progress and show an error and "Save Again" button if the results can't be stored.
+survey.surveyShowDataSaving = true;
+survey.surveyPostId = "0c5f2889-5f18-4bd5-8523-9dea607a4020";
+//Optionally, show saving progress and show an error and "Save Again" button if the results can't be stored.
+
+return (
+  <div  id="admin-survey">
+    <aside>
+      <h1>Ações</h1>
+      <Button style={{marginTop: 10,marginBottom: 20}}>Criar pergunta</Button>
+      <Button style={{marginTop: 10,marginBottom: 20}} onClick={handleSubmitSurvey}>Enviar questionário</Button>
+      <Button style={{marginTop: 10,marginBottom: 20}}>Encerrar questionário</Button>
+      <img src={actions} alt="Representação das ações que o Admin pode realizar" />
+    </aside>
+    <main>
+    <h2>Questionário disponível dessa semana</h2>
+      <div className="main-content">
+        <Survey model={survey} />
+      </div>
+    </main> 
+  </div>
+)
 }
 
-export function AdminDashboard(){
-    const [survey, setSurvey] = useState(null);
-    const [vizPanel, setVizPanel] = useState(null);
-
-    if (!survey) {
-        const survey = new Model(surveyJson);
-        console.log(survey);
-        setSurvey(survey as any);
-    }
-
-    if (!vizPanel && !!survey) {
-        const vizPanel = new VisualizationPanel(
-        (survey as any).getAllQuestions(),
-        surveyResults,
-        vizPanelOptions
-        );
-        vizPanel.showHeader = false;
-        setVizPanel(vizPanel as any);
-  }
-
-    useEffect(() => {
-        const aux = document.getElementById("surveyVizPanel");
-        (vizPanel as any).render("surveyVizPanel");
-        return () => {
-        if(aux?.innerHTML )
-          aux.innerHTML = "";
-        }
-      }, [vizPanel]);
-
-
-    return(
-        <div id="surveyVizPanel" style={{ width: 1000, justifyContent: 'center' }}>
-            <h1>Seus resultados</h1>
-        </div>
-        
-
-    )
-}
-
+//https://www.javatpoint.com/react-lists#:~:text=Now%2C%20let%20us%20see%20how,render%20it%20to%20the%20DOM. ler sobre listas
