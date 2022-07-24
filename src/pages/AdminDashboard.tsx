@@ -1,13 +1,12 @@
 //https://www.youtube.com/watch?v=RF57yDglDfE
 //https://www.chartjs.org/docs/latest/
 import { useEffect, useState } from "react";
-import { SurveyData} from './Data'
-import { BarChart } from "../components/BarChart";
 import 'survey-analytics/survey.analytics.min.css';
-import { database } from "../services/firebase";
+import '../styles/admindashboard.scss';
 import { Model } from 'survey-core';
 import { VisualizationPanel } from 'survey-analytics';
-import { render } from "react-dom";
+import { database } from "../services/firebase";
+//https://softauthor.com/firebase-querying-sorting-filtering-database-with-nodejs-client/
 
 const surveyJson = {
     locale: "pt-br",
@@ -234,7 +233,9 @@ const surveyJson = {
   
 const surveyResults = [{
     "question1":5,
+    "question1-Comment":"Não me sinto bem essa semana.",
     "question2":3,
+    "question2-Comment":"Não consigo me concentrar.",
     "question3":5,
     "question4":2,
     "question5":1,
@@ -247,14 +248,14 @@ const surveyResults = [{
     "question5":1,
     "question6":3,
   }, {
-    "question1":5,
+    "question1":2,
     "question2":5,
     "question3":5,
     "question4":2,
     "question5":1,
     "question6":3,
   }, {
-    "question1":1,
+    "question1":3,
     "question2":3,
     "question3":1,
     "question4":2,
@@ -270,12 +271,18 @@ const surveyResults = [{
 }];
   
 const vizPanelOptions = {
-    allowHideQuestions: false
+    allowHideQuestions: false,
+    showPercentages: true
 }
 
 export function AdminDashboard(){
     const [survey, setSurvey] = useState(null);
     const [vizPanel, setVizPanel] = useState(null);
+    const dbRef = database.ref(`surveys`);
+
+    dbRef.on("value",snap => {
+      console.log(snap);
+    })
 
     if (!survey) {
         const survey = new Model(surveyJson);
@@ -304,7 +311,7 @@ export function AdminDashboard(){
 
 
     return(
-        <div id="surveyVizPanel" style={{ width: 1000, justifyContent: 'center' }}>
+        <div id="surveyVizPanel">
             <h1>Seus resultados</h1>
         </div>
         

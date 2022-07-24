@@ -48,22 +48,6 @@ export function SignUp(){
             .catch(err => {setError(err.message);toast.error(err.message) });  
 
             toast.success('User registration successful registered');
-            if(auth.currentUser?.email === admin){
-              db.push({
-                id: auth.currentUser.uid,
-                email: auth.currentUser.email,
-                name:auth.currentUser?.displayName,
-                isAdmin: true
-              })
-            }
-            else{
-              db.push({
-                id: auth.currentUser?.uid,
-                email: auth.currentUser?.email,
-                name:auth.currentUser?.displayName,
-                isAdmin: false
-              })
-            }
             setTimeActive(true);
             navigate('/verify-email')
 

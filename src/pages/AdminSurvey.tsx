@@ -5,7 +5,7 @@ import '../styles/adminsurvey.scss';
 import { useAuth } from '../hooks/useAuth';
 import { database } from '../services/firebase';
 import { Button } from '../components/Button';
-import { DataSurvey } from '../services/serviceSurvey';
+//import { SurveyCode } from '../components/SurveyCode';
 import actions from '../assets/images/actionsadmin.svg';
 
 StylesManager.applyTheme("defaultV2");
@@ -33,9 +33,9 @@ const surveyJson = {
         type: "rating",
         name: "question1",
         useDisplayValuesInTitle: false,
-        width: "750px",
-        minWidth: "500px",
-        maxWidth: "750px",
+        width: "750",
+        minWidth: "750",
+        maxWidth: "750",
         indent: 2,
         title: "Como você se sente em uma escala de 1 a 5?",
         hideNumber: true,
@@ -69,9 +69,9 @@ const surveyJson = {
         type: "rating",
         name: "question2",
         useDisplayValuesInTitle: false,
-        width: "750px",
-        minWidth: "750px",
-        maxWidth: "750px",
+        width: "750",
+        minWidth: "750",
+        maxWidth: "750",
         indent: 2,
         title: "Você sente que está conseguindo se concentrar?",
         hideNumber: true,
@@ -237,22 +237,39 @@ const surveyJson = {
 
 export function AdminSurvey(){
   const {user} = useAuth();
-  const db = database;
   const survey = new Model(surveyJson);
 
 
   async function handleSubmitSurvey(){
-    const openDate = '09/07/2022';
-    const closeDate = '15/07/2022';
+    const currentDate = new Date()+"";
     const surveyData = surveyJson;
-    const surveyRef = database.ref('/survey');
-    const surveyCreated = surveyRef.push({
-      openDate: openDate,
-      closeDate: closeDate,
+    const surveyRef = database.ref('surveys');
+    const firebaseSurvey = await surveyRef.push({
+      openedAt: currentDate,
       authorId:user?.id,
       surveyData
-    }) 
+    }).key; 
+
+    console.log(firebaseSurvey);
+    localStorage.setItem('surveyId', firebaseSurvey!); 
+        
 }
+
+  async function handleEndSurvey(){
+    const currentDate = new Date()+"";
+    const surveyId = localStorage.getItem('surveyId');
+    const surveyRef = await database.ref(`surveys/${surveyId}`).get();
+    if(surveyRef.val().endedAt){
+      alert('Survey already closed.');
+      return;
+    }
+    await database.ref(`surveys/${surveyId}`).update({
+        endedAt: currentDate,
+    });
+
+  //navigate('/');
+}
+
   
 
   //Optionally, show saving progress and show an error and "Save Again" button if the results can't be stored.
@@ -264,9 +281,10 @@ return (
   <div  id="admin-survey">
     <aside>
       <h1>Ações</h1>
+      <h4>{localStorage.getItem('surveyId')}</h4>
       <Button style={{marginTop: 10,marginBottom: 20}}>Criar pergunta</Button>
       <Button style={{marginTop: 10,marginBottom: 20}} onClick={handleSubmitSurvey}>Enviar questionário</Button>
-      <Button style={{marginTop: 10,marginBottom: 20}}>Encerrar questionário</Button>
+      <Button style={{marginTop: 10,marginBottom: 20}} onClick={handleEndSurvey}>Encerrar questionário</Button>
       <img src={actions} alt="Representação das ações que o Admin pode realizar" />
     </aside>
     <main>

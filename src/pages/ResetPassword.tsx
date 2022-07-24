@@ -6,7 +6,7 @@ import { auth } from "../services/firebase";
 import signupImg from '../assets/images/signup.svg';
 import avatarImg from '../assets/images/avatar.png';
 import { Button } from "../components/Button";
-import '../styles/reset.scss';
+import '../styles/auth.scss';
 
 export function ResetPassword(){
     const [email, setEmail] = useState('');
@@ -18,7 +18,7 @@ export function ResetPassword(){
       }
 
     return(
-        <div id="page-reset">
+        <div id="page-auth">
         <Toaster/>
         <aside>
           <img src={signupImg} alt="Imagem simbolizando cadastro"/>

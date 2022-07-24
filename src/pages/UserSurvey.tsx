@@ -20,10 +20,10 @@ const surveyJson = {
 
 export function UserSurvey(){
   const {user} = useAuth();
-  const db = database;
   const survey = new Model(surveyJson);
-  const openData = '05/07/2022'
-  const closeData = '10/07/2022'
+  const surveyId = localStorage.getItem('surveyId');
+  console.log(surveyId);
+  //const surveyId = '-N7YIOsn_5kuyrZeB_Le';
   
 
   //Optionally, show saving progress and show an error and "Save Again" button if the results can't be stored.
@@ -31,18 +31,19 @@ survey.surveyShowDataSaving = true;
 survey.surveyPostId = "0c5f2889-5f18-4bd5-8523-9dea607a4020";
 //Optionally, show saving progress and show an error and "Save Again" button if the results can't be stored.
 
+ //https://www.freecodecamp.org/news/how-to-use-localstorage-with-react-hooks-to-set-and-get-items/ 
+
 survey.onComplete.add(function (sender) {
-  const currentDate = new Date().toLocaleString();
+  const currentDate = new Date()+"";
   const answers = sender.data;
-  const SurveyId = '-N6ZzhI2driS7uzV3arL';
-  const surveyRef = database.ref(`survey/${SurveyId}/results`);
+  const surveyRef = database.ref(`surveys/${surveyId}/results`);
   const firebaseSurvey = surveyRef.push({
-    surveyId: SurveyId,
-    data: currentDate,
+    answeredAt: currentDate,
     authorId:user?.id,
     answers
   })
-});
+})
+
 
 return (
   <div>

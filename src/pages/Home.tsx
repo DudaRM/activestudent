@@ -1,8 +1,5 @@
 import {useNavigate, Link} from 'react-router-dom';
-//import toast, { Toaster } from 'react-hot-toast';
-//https://stackoverflow.com/questions/50911678/react-native-how-to-store-pic-and-username-when-using-firebase-to-create-a-user
-//https://stackoverflow.com/questions/37370599/firebase-auth-delayed-on-refresh
-//onClick={handleLogIn}
+import toast, { Toaster } from 'react-hot-toast';
 
 import ideiasImg from '../assets/images/ideas.svg';
 import avatarImg from '../assets/images/avatar.png';
@@ -82,13 +79,14 @@ useEffect(() => {
         navigate('/UserPage');
       }
     })
-    .catch(err => setError(err.message))
-
+    .catch(err => {setError(err.message)});
+    alert('Wrong password');
   }
 
 
   return(
     <div id="page-auth">
+      <Toaster/>
       <aside>
         <img src={ideiasImg} alt="Imagem simbolizando ideias"/>
         <strong>Seja produtivo e fique próximo da sua universidade!</strong>

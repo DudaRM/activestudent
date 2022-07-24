@@ -6,7 +6,6 @@ import notebook from '../assets/images/notebook.png';
 import checklist from '../assets/images/checklist.png';
 import { useState } from "react";
 import {SurveyData} from './Data'
-import { BarChart } from "../components/BarChart";
 import '../styles/userpage.scss';
 import { Chart, registerables } from 'chart.js';
 Chart.register(...registerables);
@@ -59,9 +58,6 @@ export function UserDashboard(){
               </div>
             </div>
 
-            <div className="content-two" style={{ width: 700 }}>
-              <BarChart chartData={userData}/>
-            </div>
 
           </div>
 

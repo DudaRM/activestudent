@@ -141,3 +141,15 @@
         }
     }
 }
+
+@media(max-width: 770px){
+    #page-auth aside{
+        flex: 0;
+        display: none;
+        height: 100vh;     
+    }
+    .main{
+        flex: 0;
+        width: 100%;
+    }
+}
