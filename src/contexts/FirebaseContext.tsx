@@ -1,6 +1,6 @@
 //Contexto é usado quando você quer compartilhar algo com toda a aplicação.
 //https://medium.com/geekculture/firebase-auth-with-react-and-typescript-abeebcd7940a
-import React, {createContext, useContext, useEffect, useState} from 'react';
+import {createContext, useContext, useEffect, useState} from 'react';
 import { auth } from '../services/firebase';
 
 type FirebaseUser = {
@@ -35,10 +35,6 @@ export function AuthProvider({children, value}){
          const unsub = auth.onAuthStateChanged(currentUser => {
            if(currentUser){
             const {displayName,photoURL,uid,email} = currentUser
-                console.log(currentUser.displayName)
-                console.log(currentUser.photoURL)
-                console.log(currentUser.uid)
-                console.log(currentUser.email)
 
                 if(displayName && photoURL && uid && email){  
                     setCurrentUser({

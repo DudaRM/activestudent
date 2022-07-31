@@ -22,7 +22,6 @@ export function Home(){
   const [password, setPassword] = useState('') 
   const [error, setError] = useState('')
   const admin = "duda.r.mach@gmail.com";
-  //https://stackoverflow.com/questions/51853428/firebase-realtime-db-security-rule-to-allow-specific-users?rq=1
 
 useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(function(user){

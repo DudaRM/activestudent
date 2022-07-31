@@ -1,7 +1,5 @@
 import { createContext, ReactNode, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { auth, firebase } from "../services/firebase";
-//Ler e reformar o login do firebase
 
 type User = {
     id:string;
@@ -18,10 +16,6 @@ type User = {
 type AuthContextProviderProps = {
     children:ReactNode;
 }
-
-
-//export function AuthProvider({children,value})
-
 
 export const AuthContext = createContext({} as AuthContextType);
 

@@ -6,9 +6,12 @@ import notebook from '../assets/images/notebook.png';
 import checklist from '../assets/images/checklist.png';
 import fine from '../assets/images/smile.png';
 import emotions from '../assets/images/emotions.png';
+import { useCount } from '../hooks/useCount';
 
 export function UserPage(){
-   const {user} = useAuth();
+  const {user} = useAuth();
+  const count = useCount();
+  
     return(
       <div id="user-page">
        { user ? (
@@ -44,7 +47,7 @@ export function UserPage(){
                   <h5>Questionários disponíveis</h5>
                   <div className="container">
                     <img src={checklist} alt="Representação dos surveys disponíveis"/>
-                    <h1>0/1</h1>
+                    <h1>{count}/1</h1>
                   </div>
                   <p>Último: Last week</p>
                 </div>

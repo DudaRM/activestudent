@@ -5,24 +5,12 @@ import { useAuth } from "../hooks/useAuth";
 import notebook from '../assets/images/notebook.png';
 import checklist from '../assets/images/checklist.png';
 import { useState } from "react";
-import {SurveyData} from './Data'
 import '../styles/userpage.scss';
 import { Chart, registerables } from 'chart.js';
 Chart.register(...registerables);
 
 export function UserDashboard(){
   const {user} = useAuth();
-
-  const [userData, setUserData] = useState({
-    //columns
-    labels: SurveyData.map((data) => data.year),
-    datasets: [
-      {
-      label: "Users Gained",
-      data: SurveyData.map((data) => data.userGain),
-      backgroundColor: ["#A9DED4","#E6866E"]
-    }]
-  });
 
   return(
     <div id="user-page">
