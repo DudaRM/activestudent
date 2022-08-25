@@ -27,8 +27,6 @@ export function AdminDashboard(){
         })
         setResult(results);
         localStorage.setItem('results', JSON.stringify(results)); 
-        console.log(results)
-        console.log(localStorage.getItem('results'));
       });
   }, [database.ref]);
 

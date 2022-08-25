@@ -19,13 +19,9 @@ import { AdminDashboard } from "./pages/AdminDashboard";
 import { UserSurvey } from "./pages/UserSurvey";
 import WithNavAdmin from "./pages/Nav/WithNavAdmin";
 import { AdminSurvey } from "./pages/AdminSurvey";
-//import { Teste } from "./pages/Teste";
 
-
-//alterar Home
 
 function App() {
-  //Now when we register a user the currentUser state will be set with an object containing the user’s info.
   const [ currentUser,setCurrentUser ] = useState(null);
   const [timeActive, setTimeActive] = useState(false);
 
@@ -58,5 +54,3 @@ function App() {
 }
 
 export default App;
-
-//This way, the currentUser value supplied to AuthProvider will be available for use by all the components in our app except the App component.

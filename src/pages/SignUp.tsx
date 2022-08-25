@@ -12,7 +12,6 @@ import '../styles/auth.scss';
 
 
 export function SignUp(){
-    const db = database.ref('/users');
     const admin = "duda.r.mach@gmail.com";
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');

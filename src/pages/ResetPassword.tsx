@@ -33,7 +33,6 @@ export function ResetPassword(){
                 forgotPassword(email)
                     .then(response => {
                         console.log(response)
-                        //add toast
                 })
                 .catch(e => console.log(e.message))
                 }} name="registration-form">

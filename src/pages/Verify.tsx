@@ -5,8 +5,6 @@ import { useAuthValue } from '../contexts/FirebaseContext';
 import { auth } from '../services/firebase';
 import '../styles/verify.scss';
 
-//https://bobbyhadz.com/blog/typescript-property-does-not-exist-on-type
-
 
 export function Verify(){
 
@@ -46,6 +44,7 @@ export function Verify(){
         return () => clearInterval(interval);
     }, [timeActive, time, setTimeActive])
 
+    //Resend email
     const resendEmailVerification = () => {
         sendEmailVerification(auth.currentUser as any)
         .then(() => {
@@ -58,12 +57,12 @@ export function Verify(){
      return(
         <div className='center'>
             <div className='verifyEmail'>
-                <h1>Verify your Email Address</h1>
+                <h1>Verifique seu endereço de Email</h1>
                 <p>
-                    <strong>A Verification email has been sent to:</strong><br/>
+                    <strong>Um email de verificação foi enviado para:</strong><br/>
                     <span>{currentUser?.email}</span>
                 </p>
-                <span>Follow the instruction in the email to verify your account</span>       
+                <span>Siga as instruções no email para verificar sua conta.</span>       
                 <button 
                     onClick={resendEmailVerification}
                     disabled={timeActive}

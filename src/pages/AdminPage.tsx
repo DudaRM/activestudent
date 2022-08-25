@@ -1,6 +1,7 @@
 import { Link} from 'react-router-dom'
 import { useAuth } from '../hooks/useAuth';
 import login from '../assets/images/login.png';
+import adminavatar from '../assets/images/adminavatar.png';
 import notebook from '../assets/images/notebook.png';
 import checklist from '../assets/images/checklist.png';
 import '../styles/userpage.scss';
@@ -8,13 +9,13 @@ import { useCount } from '../hooks/useCount';
 
 export function AdminPage(){
     const {user} = useAuth();
-    const admin = "duda.r.mach@gmail.com";
     const count = useCount();
+
     return(
       <div id="user-page">
-       { user? (
+       { user ? (
          <><aside>
-            {user.avatar && <img src={user.avatar} alt={user.name} />}
+            <img src={adminavatar} alt={user.name} />
             <strong>{user.name}</strong>
             <div className="separator">Admin</div>
             <p>Última visita: 3 minutos atrás</p>

@@ -2,6 +2,7 @@ import { Link} from 'react-router-dom'
 import { useAuth } from '../hooks/useAuth';
 import '../styles/userpage.scss';
 import login from '../assets/images/login.png';
+import useravatar from '../assets/images/useravatar.png';
 import notebook from '../assets/images/notebook.png';
 import checklist from '../assets/images/checklist.png';
 import fine from '../assets/images/smile.png';
@@ -16,7 +17,7 @@ export function UserPage(){
       <div id="user-page">
        { user ? (
          <><aside>
-            <img src={user.avatar} alt={user.name} />
+            <img src={useravatar} alt={user.name} />
             <strong>{user.name}</strong>
             <div className="separator">Estudante 8° período</div>
             <p>Última visita: 3 minutos atrás</p>

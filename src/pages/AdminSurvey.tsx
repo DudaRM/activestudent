@@ -750,9 +750,7 @@ export function AdminSurvey(){
 
  async function handleChooseSurvey(e){
     await handleChooseJson(e);
-    console.log(survey)
     await handleModel(e);
-    console.log(model)
   }
 
   async function handleSubmitSurvey(){
@@ -792,7 +790,6 @@ export function AdminSurvey(){
     });
 }
 
-//Optionally, show saving progress and show an error and "Save Again" button if the results can't be stored.
 choosenSurvey.surveyShowDataSaving = true;
 
 return (

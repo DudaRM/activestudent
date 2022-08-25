@@ -1,13 +1,8 @@
-//https://www.youtube.com/watch?v=RF57yDglDfE
-//https://www.chartjs.org/docs/latest/
 import { Link } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 import notebook from '../assets/images/notebook.png';
 import checklist from '../assets/images/checklist.png';
-import { useState } from "react";
 import '../styles/userpage.scss';
-import { Chart, registerables } from 'chart.js';
-Chart.register(...registerables);
 
 export function UserDashboard(){
   const {user} = useAuth();
