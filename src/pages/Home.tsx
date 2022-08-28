@@ -79,7 +79,6 @@ useEffect(() => {
       }
     })
     .catch(err => {setError(err.message)});
-    alert('Wrong email or password');
   }
 
 
